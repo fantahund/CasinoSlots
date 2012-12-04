@@ -2,6 +2,9 @@
 
 A majorly updated version of AnCasino started by Darazo
 
+### Update: 2.6.0 ###
+* Added a new type of slot machines, ItemFrames! (new ones are automatically this, old ones are the blocks) //TODO
+
 ### Update: 2.5.5 ###
 * Using the logger provided with Bukkit
 * Added support for withdrawing money from a player's account, if the reward money is negative it withdraws the money from the player
