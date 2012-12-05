@@ -4,7 +4,6 @@
   <artifactId>casinoslots</artifactId>
   <version>2.6.0-SNAPSHOT</version>
   <name>CasinoSlots</name>
-  <description>Real CasinoSlots in Minecraft.</description>
   <url>http://dev.bukkit.org/server-mods/casino-slots/</url>
   
   <properties>
@@ -119,4 +118,5 @@
       </plugin>
     </plugins>
   </build>
+  <description>Real slot machines for your server.</description>
 </project>

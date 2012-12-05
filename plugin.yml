@@ -1,8 +1,8 @@
 name: CasinoSlots
 main: com.craftyn.casinoslots.CasinoSlots
 author: [graywolf336,Darazo]
-version: 2.6.0-b${BUILD_NUMBER}
-description: Real slot machines for your server.
+version: ${project.version}-b${BUILD_NUMBER}
+description: ${project.description}
 softdepend: [Vault,iConomy,Towny,WorldEdit,WorldGuard]
 commands:
     casino:
