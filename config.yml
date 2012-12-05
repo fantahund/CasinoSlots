@@ -3,7 +3,7 @@
 # If you change the config-version, the defaults will be added. You have been warned.
 options:
   debug: false
-  config-version: 1.0
+  config-version: 1.1
   bukkit-version: 2377 #Changing this to something lower will disable sounds
   track-statistics: true
   allow-diagonal-winnings: false
