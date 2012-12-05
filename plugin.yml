@@ -4,6 +4,7 @@ author: [graywolf336,Darazo]
 version: ${project.version}-b${BUILD_NUMBER}
 description: ${project.description}
 softdepend: [Vault,iConomy,Towny,WorldEdit,WorldGuard]
+website: ${project.url}
 commands:
     casino:
         description: CasinoSlots
