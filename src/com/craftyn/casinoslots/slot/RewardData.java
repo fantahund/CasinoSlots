@@ -55,17 +55,14 @@ public class RewardData {
 				int amount = Integer.parseInt(a[2]);
 				
 				int item = Integer.parseInt(itemData[0]);
-				byte data = 0;
-				short damage = 0;
 				ItemStack is = null;
 				
 				if(itemData.length == 1) {
-					is = new ItemStack(item, amount, damage, data);
+					is = new ItemStack(item, amount);
 				}else if(itemData.length == 2) {
-					data = (byte) Integer.parseInt(itemData[1]);
-					is = new ItemStack(item, amount, damage, data);
+					is = new ItemStack(item, amount);
 				}else if (itemData.length == 3) {
-					is = new ItemStack(item, amount, damage, data);
+					is = new ItemStack(item, amount);
 					
 					int enID = Integer.parseInt(itemData[1]);
 					Enchantment enchantment = Enchantment.getById(enID);
@@ -92,7 +89,7 @@ public class RewardData {
 			
 			// Kill action
 			else if(a[0].equalsIgnoreCase("kill")) {
-				p.setHealth(0);
+				p.setHealth(0D);
 			}
 			
 			// Kick action
