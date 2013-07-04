@@ -3,7 +3,7 @@ main: com.craftyn.casinoslots.CasinoSlots
 author: [graywolf336,Darazo]
 version: ${project.version}-b${BUILD_NUMBER}
 description: ${project.description}
-softdepend: [Vault,iConomy,Towny,WorldEdit,WorldGuard]
+softdepend: [Vault,iConomy,Towny,WorldEdit,WorldGuard,Multiverse-Core]
 website: ${project.url}
 commands:
     casino:
