@@ -37,7 +37,7 @@ public class CasinoList extends AnCommand {
                     if(isOwner(slot)) {
                         Block b = slot.getController();
                         String c = b.getX()+ "," +b.getY()+ "," +b.getZ();
-                        senderSendMessage(slot.getName() + " - type: " + slot.getType() + " - owner: " + slot.getOwner() + " - managed: " + slot.isManaged().toString() +" @ " + c);
+                        senderSendMessage(slot.getName() + " - type: " + slot.getType().getName() + " - owner: " + slot.getOwner() + " - managed: " + slot.isManaged().toString() +" @ " + c);
                     }
                 }
             }
