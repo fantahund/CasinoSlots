@@ -23,8 +23,13 @@ public class CasinoSetOwner extends AnCommand {
                 // Can access slot
                 if(isOwner(slot)) {
                     String owner = args[2];
-                    slot.setOwner(owner);
-                    sendMessage(owner + " is now the owner of the " + args[1] + " slot machine.");
+                    Player ownerPlayer = plugin.getServer().getPlayer(owner);
+                    if (ownerPlayer != null) {
+                        slot.setOwner(ownerPlayer.getName(), ownerPlayer.getUniqueId());
+                        sendMessage(ownerPlayer.getName() + " is now the owner of the " + args[1] + " slot machine.");
+                    } else {
+                        sendMessage("This player is not online.");
+                    }
                 }
                 // No access
                 else {

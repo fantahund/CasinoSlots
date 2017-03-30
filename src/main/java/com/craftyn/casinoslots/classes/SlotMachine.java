@@ -118,8 +118,9 @@ public class SlotMachine {
         return this.owner;
     }
     
-    public void setOwner(String name) {
+    public void setOwner(String name, UUID uuid) {
         this.owner = name;
+        this.ownerId = uuid;
     }
 
     // Returns if slot machine is managed
