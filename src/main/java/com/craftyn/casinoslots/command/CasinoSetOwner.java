@@ -26,6 +26,7 @@ public class CasinoSetOwner extends AnCommand {
                     Player ownerPlayer = plugin.getServer().getPlayer(owner);
                     if (ownerPlayer != null) {
                         slot.setOwner(ownerPlayer.getName(), ownerPlayer.getUniqueId());
+                        plugin.getSlotManager().saveSlot(slot);
                         sendMessage(ownerPlayer.getName() + " is now the owner of the " + args[1] + " slot machine.");
                     } else {
                         sendMessage("This player is not online.");
