@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.InventoryType;
@@ -86,13 +87,13 @@ public class MockPlayerInventory implements PlayerInventory {
     @Override
     public int clear(int i, int i2) {
         int count = 0;
-        for(int d = i; d > i2; d++) {
-            if(this.inventoryContents[d] != null) {
+        for (int d = i; d > i2; d++) {
+            if (this.inventoryContents[d] != null) {
                 this.inventoryContents[d] = null;
                 count++;
             }
         }
-        
+
         return count;
     }
 
@@ -115,8 +116,7 @@ public class MockPlayerInventory implements PlayerInventory {
     public ItemStack getItem(int i) {
         if (i >= 0 && i < inventorySize) {
             return inventoryContents[i];
-        } else if (i >= inventorySize
-                && i < inventorySize + armorSize) {
+        } else if (i >= inventorySize && i < inventorySize + armorSize) {
             return armorContents[i - inventorySize];
         } else {
             throw new ArrayIndexOutOfBoundsException();
@@ -127,8 +127,7 @@ public class MockPlayerInventory implements PlayerInventory {
     public void setItem(int i, ItemStack itemStack) {
         if (i >= 0 && i < inventorySize) {
             inventoryContents[i] = itemStack;
-        } else if (i >= inventorySize
-                && i < inventorySize + armorSize) {
+        } else if (i >= inventorySize && i < inventorySize + armorSize) {
             armorContents[i - inventorySize] = itemStack;
         } else {
             throw new ArrayIndexOutOfBoundsException();
@@ -155,26 +154,40 @@ public class MockPlayerInventory implements PlayerInventory {
         this.inventoryContents = itemStacks;
     }
 
+    @Override
+    public ItemStack[] getStorageContents() {
+        return this.inventoryContents;
+    }
+
+    @Override
+    public void setStorageContents(ItemStack[] itemStacks) throws IllegalArgumentException {
+        this.inventoryContents = itemStacks;
+    }
+
     @SuppressWarnings("deprecation")
     @Override
     public boolean contains(int i) {
         boolean contains = false;
-        
-        for(ItemStack item : inventoryContents)
-            if(item.getTypeId() == i)
+
+        for (ItemStack item : inventoryContents) {
+            if (item.getTypeId() == i) {
                 return true;
-        
+            }
+        }
+
         return contains;
     }
 
     @Override
     public boolean contains(Material material) {
         boolean contains = false;
-        
-        for(ItemStack item : inventoryContents)
-            if(item.getType() == material)
+
+        for (ItemStack item : inventoryContents) {
+            if (item.getType() == material) {
                 return true;
-        
+            }
+        }
+
         return contains;
     }
 
@@ -300,8 +313,7 @@ public class MockPlayerInventory implements PlayerInventory {
 
     @SuppressWarnings("deprecation")
     private static Map<String, Object> makeMap(ItemStack[] items) {
-        Map<String, Object> contents = new LinkedHashMap<String, Object>(
-                items.length);
+        Map<String, Object> contents = new LinkedHashMap<String, Object>(items.length);
         for (int i = 0; i < items.length; i++) {
             if (items[i] != null && items[i].getTypeId() != 0) {
                 contents.put(Integer.valueOf(i).toString(), items[i]);
@@ -311,12 +323,43 @@ public class MockPlayerInventory implements PlayerInventory {
     }
 
     public String toString() {
-        return "{\"inventoryContents\":" + makeMap(getContents())
-                + ",\"armorContents\":" + makeMap(getArmorContents()) + "}";
+        return "{\"inventoryContents\":" + makeMap(getContents()) + ",\"armorContents\":" + makeMap(getArmorContents()) + "}";
     }
 
     @Override
     public void setHeldItemSlot(int slot) {
         this.heldSlot = slot;
+    }
+
+    @Override
+    public Location getLocation() {
+        return null;
+    }
+
+    @Override
+    public ItemStack[] getExtraContents() {
+        return null;
+    }
+
+    @Override
+    public ItemStack getItemInMainHand() {
+        return null;
+    }
+
+    @Override
+    public ItemStack getItemInOffHand() {
+        return null;
+    }
+
+    @Override
+    public void setExtraContents(ItemStack[] arg0) {
+    }
+
+    @Override
+    public void setItemInMainHand(ItemStack paramItemStack) {
+    }
+
+    @Override
+    public void setItemInOffHand(ItemStack paramItemStack) {
     }
 }
