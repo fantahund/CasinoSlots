@@ -40,7 +40,7 @@ public class PlayerListener implements Listener {
         //Update the owners of the slot machines when they login
         for(SlotMachine s : plugin.getSlotManager().getSlots()) {
             if(s.getOwnerId().equals(event.getPlayer().getUniqueId())) {
-                s.setOwner(event.getPlayer().getName());
+                s.setOwner(event.getPlayer().getName(), event.getPlayer().getUniqueId());
             }
         }
     }
