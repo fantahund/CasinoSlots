@@ -163,7 +163,7 @@ public class GiveAction extends Action {
     }
 
     public boolean execute(Type type, Reward reward, Player player) {
-        return player.getInventory().addItem(item).size() == 0;
+        return player.getInventory().addItem(item.clone()).size() == 0;
     }
 
     public String getName() {
