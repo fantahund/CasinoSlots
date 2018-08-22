@@ -2,7 +2,6 @@ package com.craftyn.casinoslots.slot.game;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitScheduler;
 
 import com.craftyn.casinoslots.CasinoSlots;
@@ -77,7 +76,7 @@ public class Game {
             plugin.sendMessage(player, getType().getMessages().get("start"));
         } else {
             int itemAmt = slot.getItemAmount();
-            Material itemMat = new ItemStack(slot.getItem()).getType();
+            Material itemMat = slot.getItem();
             if (itemAmt == 1) {
                 plugin.sendMessage(player, itemAmt + " " + itemMat.toString().toLowerCase() + " removed from your inventory.");
             } else {

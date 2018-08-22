@@ -3,8 +3,9 @@ package com.craftyn.casinoslots.classes;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.material.MaterialData;
+import org.bukkit.block.data.BlockData;
 
 import com.craftyn.casinoslots.CasinoSlots;
 
@@ -14,7 +15,8 @@ public class SlotMachine {
     private UUID ownerId;
     private String name, owner, world, reelChunk, controllerChunk;
     private Boolean managed, busy = false, enabled = true, item;
-    private int itemID, itemAMT;
+    private Material itemID;
+    private int itemAMT;
     private ArrayList<Block> blocks;
     private Block controller, sign = null;
     private Double funds;
@@ -39,7 +41,7 @@ public class SlotMachine {
      * @param itemID     		The item id that it accepts (should be set to 0 if false).
      * @param itemAmount 		The amount of the item that it takes from the player.
      */
-    public SlotMachine(CasinoSlots pl, String name, Type type, UUID ownerId, String owner, String world, String reelChunk, String controllerChunk, Block sign, Boolean managed, ArrayList<Block> blocks, Block controller, Double funds, Boolean item, int itemID, int itemAmount) {
+    public SlotMachine(CasinoSlots pl, String name, Type type, UUID ownerId, String owner, String world, String reelChunk, String controllerChunk, Block sign, Boolean managed, ArrayList<Block> blocks, Block controller, Double funds, Boolean item, Material itemID, int itemAmount) {
         this.plugin = pl;
         this.name = name;
         this.type = type;
@@ -72,7 +74,7 @@ public class SlotMachine {
      * @param itemId   The item id that it accepts (should be set to 0 if false).
      * @param itemAmt  The amount of the item that it takes from the player.
      */
-    public SlotMachine(CasinoSlots pl, String name, Type type, UUID ownerId, String owner, String world, Boolean managed, Boolean item, int itemId, int itemAmt) {
+    public SlotMachine(CasinoSlots pl, String name, Type type, UUID ownerId, String owner, String world, Boolean managed, Boolean item, Material itemId, int itemAmt) {
         this.plugin = pl;
         this.name = name;
         this.type = type;
@@ -138,7 +140,7 @@ public class SlotMachine {
     }
 
     // Returns which item it costs
-    public int getItem() {
+    public Material getItem() {
         return this.itemID;
     }
 
@@ -207,8 +209,8 @@ public class SlotMachine {
     public void setController(Block c) {
         this.controller = c;
         
-        MaterialData d = this.type.getControllerData();
-        this.controller.setTypeIdAndData(d.getItemTypeId(), d.getData(), false);
+        BlockData d = this.type.getControllerData();
+        this.controller.setBlockData(d, false);
         
         setControllerChunk(c.getChunk().getX() + "," + c.getChunk().getZ());
     }

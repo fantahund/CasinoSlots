@@ -1,5 +1,6 @@
 name: CasinoSlots
 main: com.craftyn.casinoslots.CasinoSlots
+api-version: 1.13
 author: graywolf336
 authors: [Darazo]
 website: http://dev.bukkit.org/bukkit-plugins/casino-slots/

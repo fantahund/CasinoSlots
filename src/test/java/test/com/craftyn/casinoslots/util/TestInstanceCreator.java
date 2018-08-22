@@ -105,7 +105,6 @@ public class TestInstanceCreator {
 
             PluginDescriptionFile pdf = PowerMockito.spy(new PluginDescriptionFile("CasinoSlots", "2.6.0-Test", "com.craftyn.casinoslots.CasinoSlots"));
             when(pdf.getPrefix()).thenReturn("CasinoSlots");
-            when(pdf.isDatabaseEnabled()).thenReturn(false);
             List<String> authors = new ArrayList<String>();
             authors.add("graywolf336");
             authors.add("Darazo");

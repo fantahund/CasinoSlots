@@ -7,7 +7,6 @@ import com.craftyn.casinoslots.CasinoSlots;
 import com.craftyn.casinoslots.actions.Action;
 import com.craftyn.casinoslots.classes.Reward;
 import com.craftyn.casinoslots.classes.Type;
-import com.craftyn.casinoslots.exceptions.ActionLoadingException;
 
 /**
  * The rocket action. Usage: - rocket
@@ -19,7 +18,7 @@ import com.craftyn.casinoslots.exceptions.ActionLoadingException;
 public class RocketAction extends Action {
     private String name = "Rocket";
 
-    public RocketAction(CasinoSlots plugin, Type type, String... args) throws ActionLoadingException {
+    public RocketAction(CasinoSlots plugin, Type type, String... args) {
         super(plugin, type, args);
     }
 

@@ -8,8 +8,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.material.MaterialData;
+import org.bukkit.block.data.BlockData;
 
 import com.craftyn.casinoslots.CasinoSlots;
 import com.craftyn.casinoslots.actions.Action;
@@ -107,18 +108,13 @@ public class TypeManager {
         type.setRewards(getRewards(type));
         
         String controllerDefinition = plugin.getConfig().getString(path + "controller", "note_block");
-        MaterialData controller;
+        BlockData controller;
         
         try {
-            String[] controllerSplit = controllerDefinition.split(":");
-            controller = new MaterialData(Material.matchMaterial(controllerSplit[0]));
-            
-            if(controllerSplit.length >= 2) {
-                controller.setData(Byte.parseByte(controllerSplit[1]));
-            }
+            controller = Material.matchMaterial(controllerDefinition).createBlockData();
         }catch(Exception e) {
             plugin.severe("Unable to load the custom controller definition for the slot type " + name + ". The following is not valid: " + controllerDefinition);
-            controller = new MaterialData(Material.NOTE_BLOCK);
+            controller = Material.NOTE_BLOCK.createBlockData();
         }
         
         type.setControllerData(controller);
@@ -130,88 +126,58 @@ public class TypeManager {
         List<String> reel = plugin.getConfigData().config.getStringList("types." + type + ".reel");
 
         ArrayList<ReelBlock> parsedReel = new ArrayList<ReelBlock>();
-        for(String m : reel) {
-            if(m.contains(",")) {
-                //Old format: 35,3,2
-                //Old format: 46,1
-                
-                String[] mSplit = m.split("\\,");
-                int i = 1;
-                if (mSplit.length == 3) {
-                    i = Integer.parseInt(mSplit[2]);
-                }else {
-                    i = Integer.parseInt(mSplit[1]);
+        for (String m : reel) {
+            // New Format: red_wool 2
+            String[] split = m.split(" ");
+            BlockData mat = null;
+            int amount = 1;
+
+            // Parse the material piece
+            try {
+                mat = Bukkit.createBlockData(split[0]);
+            } catch (Exception e) {
+                Material mat2 = Material.matchMaterial(split[0]);
+                if (mat2 == null) {
+                    plugin.severe("Unable to parse reel entry: " + split[0]);
+                } else {
+                    mat = mat2.createBlockData();
                 }
-                
-                while(i > 0) {
-                    if (mSplit.length == 3) {
-                        parsedReel.add(new ReelBlock(new MaterialData(Integer.parseInt(mSplit[0]), Byte.parseByte(mSplit[1]))));
-                    }else {
-                        parsedReel.add(new ReelBlock(new MaterialData(Integer.parseInt(mSplit[0]))));
-                    }
-                    i--;
-                }
-            }else {
-                //New Format: wool:3 2
-                String[] split = m.split(" ");
-                Material mat;
-                byte data = 0;
-                int amount = 1;
-                
-                //Parse the material piece
-                String[] matSplit = split[0].split(":");
-                mat = Material.matchMaterial(matSplit[0]);
-                if(matSplit.length == 2) {
-                    data = Byte.parseByte(matSplit[1]);
-                }
-                
-                if(split.length == 2) {
-                    amount = Integer.parseInt(split[1]);
-                }
-                
-                while(amount > 0) {
-                    parsedReel.add(new ReelBlock(new MaterialData(mat, data)));
-                    amount--;
-                }
+            }
+
+            if (split.length == 2) {
+                amount = Integer.parseInt(split[1]);
+            }
+
+            while (mat != null && amount > 0) {
+                parsedReel.add(new ReelBlock(mat));
+                amount--;
             }
         }
         return parsedReel;
     }
 
     // Returns Map of all rewards for this type
-    public Map<String, Reward> getRewards(Type type) {
+    public Map<BlockData, Reward> getRewards(Type type) {
         Set<String> ids = plugin.getConfigData().config.getConfigurationSection("types." + type.getName() +".rewards").getKeys(false);
-        Map<String, Reward> rewards = new HashMap<String, Reward>();
+        Map<BlockData, Reward> rewards = new HashMap<BlockData, Reward>();
 
-        for(String m : ids) {
+        for (String m : ids) {
             try {
-                if(m.contains(",")) {
-                    //Old format: 35,3
-                    int id = 1;
-                    byte data = 0;
-                    String[] itemSplit = m.split("\\,");
-                    if (itemSplit.length == 2) {
-                        id = Integer.parseInt(itemSplit[0]);
-                        data = Byte.parseByte(itemSplit[1]);
-                    }else {
-                        id = Integer.parseInt(itemSplit[0]);
+                // New Format: wool:3
+                BlockData mat = null;
+                try {
+                    mat = Bukkit.createBlockData(m);
+                } catch (Exception e) {
+                    Material mat2 = Material.matchMaterial(m);
+                    if (mat2 == null) {
+                        throw new IllegalArgumentException("Unable to parse reel entry: " + m);
+                    } else {
+                        mat = mat2.createBlockData();
                     }
-
-                    rewards.put(id + ":" + data, getReward(type, m));
-                }else {
-                    //New Format: wool:3
-                    String[] split = m.split(":");
-                    Material mat;
-                    byte data = 0;
-                    
-                    mat = Material.matchMaterial(split[0]);
-                    if(split.length == 2) {
-                        data = Byte.parseByte(split[1]);
-                    }
-                    
-                    rewards.put(mat.getId() + ":" + data, getReward(type, m));
                 }
-            }catch(Exception e) {
+
+                rewards.put(mat, getReward(type, m));
+            } catch (Exception e) {
                 plugin.getLogger().severe(e.getClass().getSimpleName() + " occured causing us to not be able to load the reward '" + m + "' for the type '" + type.getName() + "': " + e.getMessage() + "\r\n\r\n");
             }
         }

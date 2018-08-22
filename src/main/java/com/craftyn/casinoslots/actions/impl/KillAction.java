@@ -6,7 +6,6 @@ import com.craftyn.casinoslots.CasinoSlots;
 import com.craftyn.casinoslots.actions.Action;
 import com.craftyn.casinoslots.classes.Reward;
 import com.craftyn.casinoslots.classes.Type;
-import com.craftyn.casinoslots.exceptions.ActionLoadingException;
 
 /**
  * Represents the "kill" action.
@@ -18,7 +17,7 @@ import com.craftyn.casinoslots.exceptions.ActionLoadingException;
 public class KillAction extends Action {
     private String name = "Kill";
 
-    public KillAction(CasinoSlots plugin, Type type, String... args) throws ActionLoadingException {
+    public KillAction(CasinoSlots plugin, Type type, String... args) {
         super(plugin, type, args);
     }
 

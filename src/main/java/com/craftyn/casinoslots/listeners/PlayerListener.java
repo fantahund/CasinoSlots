@@ -20,6 +20,8 @@ import com.craftyn.casinoslots.classes.SlotMachine;
 import com.craftyn.casinoslots.classes.Type;
 import com.craftyn.casinoslots.slot.game.Game;
 import com.craftyn.casinoslots.util.PermissionUtil;
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import com.sk89q.worldguard.WorldGuard;
 
 public class PlayerListener implements Listener {
     private CasinoSlots plugin;
@@ -69,7 +71,7 @@ public class PlayerListener implements Listener {
                     }
 
                     if(plugin.useWorldGuard) {
-                        if(!plugin.getWorldGuard().canBuild(player, b)) {
+                        if(!WorldGuard.getInstance().getPlatform().getRegionContainer().createQuery().testBuild(BukkitAdapter.adapt(b.getLocation()), plugin.getWorldGuard().wrapPlayer(player))) {
                             SlotMachine slot = plugin.getSlotManager().getCreatingSlot(player.getName());
                             plugin.getSlotManager().toggleCreatingSlots(player.getName(), slot);
                             player.sendMessage(ChatColor.DARK_RED + "You don't have permission for this area.");
@@ -101,7 +103,7 @@ public class PlayerListener implements Listener {
                 }
 
                 if(plugin.useWorldGuard) {
-                    if(!plugin.getWorldGuard().canBuild(player, b)) {
+                    if(!WorldGuard.getInstance().getPlatform().getRegionContainer().createQuery().testBuild(BukkitAdapter.adapt(b.getLocation()), plugin.getWorldGuard().wrapPlayer(player))) {
                         SlotMachine slot = plugin.getSlotManager().getPlacingSlot(player.getName());
                         plugin.getSlotManager().togglePlacingController(player.getName(), slot);
                         player.sendMessage(ChatColor.DARK_RED + "You don't have permission for this area.");
@@ -130,7 +132,7 @@ public class PlayerListener implements Listener {
                 }
 
                 if(plugin.useWorldGuard) {
-                    if(!plugin.getWorldGuard().canBuild(player, b)) {
+                    if(!WorldGuard.getInstance().getPlatform().getRegionContainer().createQuery().testBuild(BukkitAdapter.adapt(b.getLocation()), plugin.getWorldGuard().wrapPlayer(player))) {
                         SlotMachine slot = plugin.getSlotManager().getSignPunchingSlot(player.getName());
                         plugin.getSlotManager().togglePunchingSign(player.getName(), slot);
                         player.sendMessage(ChatColor.DARK_RED + "You don't have permission for this area.");
@@ -138,7 +140,7 @@ public class PlayerListener implements Listener {
                     }
                 }
 
-                if (b.getType().equals(Material.WALL_SIGN) || b.getType().equals(Material.SIGN_POST)) {
+                if (b.getType().equals(Material.WALL_SIGN) || b.getType().equals(Material.SIGN)) {
                     SlotMachine slot = plugin.getSlotManager().getSignPunchingSlot(player.getName());
 
                     Sign sign = (Sign) b.getState();
@@ -188,14 +190,14 @@ public class PlayerListener implements Listener {
                         // See if the slot is an item game
                         if(slot.isItem()) {
                             // Get the information about the item cost
-                            int itemID, itemAmt;
-                            itemID = slot.getItem();
+                            Material itemMat;
+                            int itemAmt;
+                            itemMat = slot.getItem();
                             itemAmt = slot.getItemAmount();
 
-                            Material itemMat = Material.getMaterial(itemID);
                             ItemStack cost = new ItemStack(itemMat, itemAmt);
 
-                            if(player.getInventory().contains(itemID, itemAmt)) {
+                            if(player.getInventory().contains(itemMat, itemAmt)) {
                                 player.getInventory().removeItem(cost);
 
                                 //Let's go!
@@ -213,9 +215,8 @@ public class PlayerListener implements Listener {
                         }else {
                             if(!type.getItemCost().equalsIgnoreCase("0")) {
                                 String[] item = type.getItemCost().split("\\,");
-                                int id, amt;
-                                byte data;
                                 Material itemMat;
+                                int amt;
                                 ItemStack cost;
 
                                 switch(item.length) {
@@ -225,7 +226,7 @@ public class PlayerListener implements Listener {
                                         return;
                                     case 2:
                                         try {
-                                            id = Integer.parseInt(item[0]);
+                                            itemMat = Material.matchMaterial(item[0]);
                                             amt = Integer.parseInt(item[1]);
                                         }catch (NumberFormatException e) {
                                             plugin.severe("Type " + type.getName() + " has an incorrect itemCost, please fix.");
@@ -233,35 +234,9 @@ public class PlayerListener implements Listener {
                                             return;
                                         }
 
-                                        itemMat = new ItemStack(id).getType();
                                         cost = new ItemStack(itemMat, amt);
 
-                                        if(player.getInventory().contains(id, amt)) {
-                                            player.getInventory().removeItem(cost);
-                                            break;
-                                        }else {
-                                            if (amt == 1) {
-                                                plugin.sendMessage(player, "Sorry, you need to have at least " + amt + " " + itemMat.toString().toLowerCase() + " in your inventory to play.");
-                                            }else {
-                                                plugin.sendMessage(player, "Sorry, you need to have at least " + amt + " " + itemMat.toString().toLowerCase() + "s in your inventory to play.");
-                                            } return;
-                                        }
-                                    case 3:
-                                        try {
-                                            id = Integer.parseInt(item[0]);
-                                            data = Byte.parseByte(item[1]);
-                                            amt = Integer.parseInt(item[2]);
-                                        }catch (NumberFormatException e) {
-                                            plugin.severe("Type " + type.getName() + " has an incorrect itemCost, please fix.");
-                                            player.sendMessage("Please inform the administrator that this slot machine has an incorrect configuration, thanks.");
-                                            return;
-                                        }
-
-                                        itemMat = new ItemStack(id).getType();
-                                        cost = new ItemStack(itemMat, amt);
-                                        cost.getData().setData(data);
-
-                                        if(player.getInventory().contains(id, amt)) {
+                                        if(player.getInventory().contains(itemMat, amt)) {
                                             player.getInventory().removeItem(cost);
                                             break;
                                         }else {
@@ -374,7 +349,7 @@ public class PlayerListener implements Listener {
     private void chargeAndPlay(Type type, SlotMachine slot, Player player) {
         // Player has enough money
         Double cost = type.getCost();
-        if(plugin.getEconomy().has(player.getName(), cost)) {
+        if(plugin.getEconomy().has(player, cost)) {
             //Let's go!
             Game game = new Game(slot, player, plugin);
             game.play();

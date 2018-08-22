@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
-import org.bukkit.material.MaterialData;
 
 import com.craftyn.casinoslots.CasinoSlots;
 import com.craftyn.casinoslots.actions.Action;
@@ -17,8 +17,8 @@ public class Type {
     private ArrayList<ReelBlock> reel;
     private Map<String, String> messages;
     private List<String> helpMessages;
-    private Map<String, Reward> rewards;
-    private MaterialData controllerData;
+    private Map<BlockData, Reward> rewards;
+    private BlockData controllerData;
     
     public Type(CasinoSlots plugin, String name) {
         this.plugin = plugin;
@@ -26,7 +26,7 @@ public class Type {
     }
 
     // Initialize new type
-    public Type(CasinoSlots plugin, String name, double cost, String itemCost, double createCost, ArrayList<ReelBlock> reel, Map<String, String> messages, List<String> helpMessages, Map<String, Reward> rewards, MaterialData controllerData) {
+    public Type(CasinoSlots plugin, String name, double cost, String itemCost, double createCost, ArrayList<ReelBlock> reel, Map<String, String> messages, List<String> helpMessages, Map<BlockData, Reward> rewards, BlockData controllerData) {
         this.plugin = plugin;
         this.name = name;
         this.cost = cost;
@@ -107,7 +107,7 @@ public class Type {
      * 
      * @return the controller's data
      */
-    public MaterialData getControllerData() {
+    public BlockData getControllerData() {
         return this.controllerData;
     }
     
@@ -116,7 +116,7 @@ public class Type {
      * 
      * @param data the data for the controller.
      */
-    public void setControllerData(MaterialData data) {
+    public void setControllerData(BlockData data) {
         this.controllerData = data;
     }
 
@@ -156,16 +156,16 @@ public class Type {
         this.helpMessages = messages;
     }
     
-    public Map<String, Reward> getRewards() {
+    public Map<BlockData, Reward> getRewards() {
         return this.rewards;
     }
     
-    public void setRewards(Map<String, Reward> rewards) {
+    public void setRewards(Map<BlockData, Reward> rewards) {
         this.rewards = rewards;
     }
 
     // Returns type reward of id
-    public Reward getReward(String id) {
+    public Reward getReward(BlockData id) {
         return this.rewards.get(id);
     }
     
@@ -179,11 +179,11 @@ public class Type {
         return max;
     }
 
-    public double sendRewards(List<String> results, Player player) {
+    public double sendRewards(List<BlockData> results, Player player) {
         double won = 0;
         List<String> messagesSent = new ArrayList<String>();
         
-        for(String r : results) {
+        for(BlockData r : results) {
             if(this.rewards.containsKey(r)) {
                 Reward re = this.rewards.get(r);
                 

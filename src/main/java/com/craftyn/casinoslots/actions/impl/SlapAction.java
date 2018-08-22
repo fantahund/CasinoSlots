@@ -9,7 +9,6 @@ import com.craftyn.casinoslots.CasinoSlots;
 import com.craftyn.casinoslots.actions.Action;
 import com.craftyn.casinoslots.classes.Reward;
 import com.craftyn.casinoslots.classes.Type;
-import com.craftyn.casinoslots.exceptions.ActionLoadingException;
 
 /**
  * The slap action. Usage: - slap
@@ -22,7 +21,7 @@ public class SlapAction extends Action {
     private String name = "Slap";
     private Random random;
 
-    public SlapAction(CasinoSlots plugin, Type type, String... args) throws ActionLoadingException {
+    public SlapAction(CasinoSlots plugin, Type type, String... args) {
         super(plugin, type, args);
         random = new Random();
     }

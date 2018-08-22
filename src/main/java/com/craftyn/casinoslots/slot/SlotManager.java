@@ -186,7 +186,7 @@ public class SlotManager {
         Boolean managed = plugin.getConfigData().slots.getBoolean(path + "managed");
         Double funds = plugin.getConfigData().slots.getDouble(path + "funds");
         Boolean item = plugin.getConfigData().slots.getBoolean(path + "item", false);
-        int itemID = plugin.getConfigData().slots.getInt(path + "itemID", 0);
+        Material itemID = Material.matchMaterial(plugin.getConfigData().slots.getString(path + "itemID", ""));
         int itemAmt = plugin.getConfigData().slots.getInt(path + "itemAmt", 0);
         ArrayList<Block> blocks = getBlocks(name);
         Block controller = getController(name);

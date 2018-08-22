@@ -11,9 +11,9 @@ import org.bukkit.Note;
 import org.bukkit.Note.Tone;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
 
-import com.craftyn.casinoslots.classes.Reward;
 import com.craftyn.casinoslots.classes.SlotMachine;
 import com.craftyn.casinoslots.classes.Type;
 import com.craftyn.casinoslots.util.Stat;
@@ -35,14 +35,14 @@ public class ResultsTask implements Runnable {
         Double cost = type.getCost();
         Double won = 0.0;
 
-        ArrayList<String> results = getResults();
+        ArrayList<BlockData> results = getResults();
 
         if (!results.isEmpty()) {
             SlotMachine slot = game.getSlot();
 
             if (!(slot.getSign() == null)) {
                 Block b = slot.getSign();
-                if (b.getType().equals(Material.WALL_SIGN) || b.getType().equals(Material.SIGN_POST)) {
+                if (b.getType().equals(Material.WALL_SIGN) || b.getType().equals(Material.SIGN)) {
                     Sign sign = (Sign) b.getState();
                     sign.setLine(3, player.getDisplayName());
                     sign.update(true);
@@ -102,13 +102,13 @@ public class ResultsTask implements Runnable {
     }
 
     // Gets the results
-    private ArrayList<String> getResults() {
-        ArrayList<String> results = new ArrayList<String>();
+    private ArrayList<BlockData> getResults() {
+        ArrayList<BlockData> results = new ArrayList<>();
         ArrayList<Block> blocks = game.getSlot().getBlocks();
 
         // checks horizontal matches
         for (int i = 0; i < 5; i++) {
-            ArrayList<String> currentId = new ArrayList<String>();
+            ArrayList<BlockData> currentId = new ArrayList<>();
             List<Block> current = null;
 
             if (i < 3) {
@@ -133,13 +133,13 @@ public class ResultsTask implements Runnable {
             }
 
             for (Block b : current) {
-                currentId.add(b.getTypeId() + ":" + b.getData());
+                currentId.add(b.getBlockData());
             }
 
             // Check for matches, deploy rewards
-            Set<String> currentSet = new HashSet<String>(currentId);
+            Set<BlockData> currentSet = new HashSet<>(currentId);
             if (currentSet.size() == 1) {
-                results.add(current.get(0).getTypeId() + ":" + current.get(0).getData());
+                results.add(current.get(0).getBlockData());
             }
         }
 

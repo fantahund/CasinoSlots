@@ -35,9 +35,9 @@ types:
     - gold_block 12
     - diamond_block 7
     - tnt 8
-    - melon_block 9
+    - melon 9
     - obsidian 4
-    - dirt:1 5
+    - coarse_dirt 5
     rewards:
       iron_block:
         message: Winner - 3 iron blocks! An enchanted iron sword.
@@ -51,8 +51,8 @@ types:
       tnt:
         action: kill
         message: Winne-
-      melon_block:
-        action: give melon_block 64
+      melon:
+        action: give melon 64
         message: Winner - 3 ..melons? Nom.
     messages:
       insufficient-permission: Sorry, you can't play this slot.
@@ -73,21 +73,21 @@ types:
     create-cost: 1000
     controller: "stained_clay:5"
     reel:
-    - wool:3 2
+    - red_wool 2
     - tnt
-    - GLOWING_REDSTONE_ORE
+    - REDSTONE_ORE
     - netherrack
-    - melon_block
-    - brick
+    - melon
+    - bricks
     rewards:
-      'wool:3':
+      'red_wool':
         action:
         - potion blindness 1000 10
         message: Winne- You can't see now!
       'tnt':
         action: kill
         message: Winne-
-      'GLOWING_REDSTONE_ORE':
+      'REDSTONE_ORE':
         action:
         - potion confusion 20 45
         - potion slow 10 20
@@ -95,10 +95,10 @@ types:
       'netherrack':
         action: fire 10
         message: Winne- Fire hurts! Don't mess with it.
-      'melon_block':
-        action: give 103 3
+      'melon':
+        action: give melon 3
         message: Winner - 3 ..melons? Nom.
-      'brick':
+      'bricks':
         action:
         - potion slow 1000 10
         - command me thinks [player] is cool!

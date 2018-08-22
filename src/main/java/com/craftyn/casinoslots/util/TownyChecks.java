@@ -104,9 +104,6 @@ public class TownyChecks {
         plugin.debug("Does the center block have a town: " + tbC.hasTown());
         plugin.debug("Does the right block have a town: " + tbR.hasTown());
 
-        if(tbL == null || tbC == null || tbR == null)
-            return false;
-
         try {
             res = TownyUniverse.getDataSource().getResident(player);
             plugin.debug("Got the Towny Resident for the player: " + player);

@@ -6,7 +6,6 @@ import com.craftyn.casinoslots.CasinoSlots;
 import com.craftyn.casinoslots.actions.Action;
 import com.craftyn.casinoslots.classes.Reward;
 import com.craftyn.casinoslots.classes.Type;
-import com.craftyn.casinoslots.exceptions.ActionLoadingException;
 
 /**
  * The Kick action. Usage: - kick the message goes here ["You cheated the Casino!"]
@@ -19,7 +18,7 @@ public class KickAction extends Action {
     private String name = "Kick";
     private String message = "You cheated the Casino!";
 
-    public KickAction(CasinoSlots plugin, Type type, String... args) throws ActionLoadingException {
+    public KickAction(CasinoSlots plugin, Type type, String... args) {
         super(plugin, type, args);
 
         for (String s : args)

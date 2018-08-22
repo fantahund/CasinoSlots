@@ -1,6 +1,7 @@
 package com.craftyn.casinoslots.command;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import com.craftyn.casinoslots.CasinoSlots;
@@ -57,13 +58,7 @@ public class CasinoAddItem extends AnCommand {
                 }
 
                 //see if the itemID is an int
-                int cmditemID;
-                try {
-                    cmditemID = Integer.parseInt(args[3]);
-                } catch (NumberFormatException e) {
-                    plugin.sendMessage(player, "The item id that it will cost has to be a number.");
-                    return true;
-                }
+                Material cmditemID = Material.matchMaterial(args[3]);
 
                 //see if the amount is an int
                 int cmditemAMT;

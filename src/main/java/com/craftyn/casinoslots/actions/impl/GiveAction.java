@@ -51,20 +51,14 @@ public class GiveAction extends Action {
                     throw new ActionLoadingException("The item's material for the item passed into '" + this.getName() + "' action for " + type.getName() + " is not a valid material. (" + args[0] + ")");
 
                 try {
-                    //parseInt should throw an exception if it can't parse it
-                    //then we try to handle it as a material
-                    item.setTypeId(Integer.parseInt(matertialParts[0]));
-                } catch (NumberFormatException e) {
-                    try {
-                        Material m = Material.matchMaterial(matertialParts[0]);
+                    Material m = Material.matchMaterial(matertialParts[0]);
 
-                        if (m == null)
-                            throw new Exception();
+                    if (m == null)
+                        throw new Exception();
 
-                        item.setType(m);
-                    } catch (Exception ex) {
-                        throw new ActionLoadingException("The item's material for the item passed into '" + this.getName() + "' action for " + type.getName() + " is not a valid material. (" + matertialParts[0] + ")");
-                    }
+                    item.setType(m);
+                } catch (Exception ex) {
+                    throw new ActionLoadingException("The item's material for the item passed into '" + this.getName() + "' action for " + type.getName() + " is not a valid material. (" + matertialParts[0] + ")");
                 }
 
                 try {
@@ -73,11 +67,6 @@ public class GiveAction extends Action {
                     throw new ActionLoadingException("The item's data for the item passed into '" + this.getName() + "' action for " + type.getName() + " is not a valid number. (" + args[0] + ")");
                 }
             } else {
-                try {
-                    //parseInt should throw an exception if it can't parse it
-                    //then we try to handle it as a material
-                    item.setTypeId(Integer.parseInt(args[0]));
-                } catch (NumberFormatException e) {
                     try {
                         Material m = Material.matchMaterial(args[0]);
 
@@ -88,7 +77,6 @@ public class GiveAction extends Action {
                     } catch (Exception ex) {
                         throw new ActionLoadingException("The item's material for the item passed into '" + this.getName() + "' action for " + type.getName() + " is not a valid material. (" + args[0] + ")");
                     }
-                }
             }
         }
 
@@ -124,16 +112,12 @@ public class GiveAction extends Action {
                         Enchantment enchant = null;
 
                         try {
-                            enchant = Enchantment.getById(Integer.parseInt(name));
-                        } catch (NumberFormatException e) {
-                            try {
-                                enchant = Enchantment.getByName(name.toUpperCase());
+                            enchant = Enchantment.getByName(name.toUpperCase());
 
-                                if (enchant == null)
-                                    throw new Exception();
-                            } catch (Exception ex) {
-                                throw new ActionLoadingException("Could not parse the enchantment for the item passed into '" + this.getName() + "' action for " + type.getName() + ". (" + meta + ")");
-                            }
+                            if (enchant == null)
+                                throw new Exception();
+                        } catch (Exception ex) {
+                            throw new ActionLoadingException("Could not parse the enchantment for the item passed into '" + this.getName() + "' action for " + type.getName() + ". (" + meta + ")");
                         }
 
                         int enLevel = Integer.parseInt(value);
