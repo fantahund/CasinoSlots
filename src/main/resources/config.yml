@@ -71,7 +71,7 @@ types:
   actionslot:
     cost: 150
     create-cost: 1000
-    controller: "stained_clay:5"
+    controller: "blue_terracotta"
     reel:
     - red_wool 2
     - tnt
