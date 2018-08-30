@@ -47,10 +47,18 @@ public class CasinoAdd extends AnCommand {
                 Type type;
 
                 // Check to see if the type is valid
-                if(args.length < 3) {
+                if (args.length < 3) {
                     type = plugin.getTypeManager().getType("default");
-                } else if(plugin.getTypeManager().isType(args[2])) {
-                    if(PermissionUtil.canCreate(player, args[2])) {
+                    if (type == null) {
+                        if (plugin.getTypeManager().getTypes().size() == 1) {
+                            type = plugin.getTypeManager().getTypes().iterator().next();
+                        } else {
+                            sendMessage("Default type not defined! You have to specify the slot type.");
+                            return true;
+                        }
+                    }
+                } else if (plugin.getTypeManager().isType(args[2])) {
+                    if (PermissionUtil.canCreate(player, args[2])) {
                         type = plugin.getTypeManager().getType(args[2]);
                     } else {
                         sendMessage("You do not have permission to create a machine with the type: " + args[2]);
