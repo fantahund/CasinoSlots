@@ -148,7 +148,7 @@ public class SlotManager {
         plugin.getConfigData().slots.set(path + "managed", slot.isManaged());
         plugin.getConfigData().slots.set(path + "funds", slot.getFunds());
         plugin.getConfigData().slots.set(path + "item", slot.isItem());
-        plugin.getConfigData().slots.set(path + "itemID", slot.getItem().name());
+        plugin.getConfigData().slots.set(path + "itemID", slot.getItem() == null ? null : slot.getItem().name());
         plugin.getConfigData().slots.set(path + "itemAmt", slot.getItemAmount());
         plugin.getConfigData().slots.set(path + "controller", cXyz);
         plugin.getConfigData().slots.set(path + "location", xyz);
